@@ -1,6 +1,6 @@
 .gradle
 /build/
-#!gradle/wrapper/gradle-wrapper.jar
+# gradle/wrapper/gradle-wrapper.jar
 
 # Ignore Gradle GUI config
 gradle-app.setting
@@ -9,7 +9,7 @@ gradle-app.setting
 .gradletasknamecache
 
 # Package Files #
-*.jar
+
 *.war
 *.ear
 
