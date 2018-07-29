@@ -4,10 +4,9 @@ import com.exercise.rest.model.ProductPackage;
 import com.exercise.rest.repository.PackageRepository;
 import com.exercise.rest.service.ISanitizePackageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.UUID;
@@ -32,5 +31,20 @@ public class ProductPackageController {
         productPackage.setId(UUID.randomUUID().toString());
         ProductPackage aPackage = packageRepository.insert(productPackage);
         return aPackage.getId();
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ProductPackage getPackageById(@PathVariable("id") String id, @PathVariable("cur") String currency){
+        if (StringUtils.hasText(currency)){
+
+        }
+        return packageRepository.findOne(id);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<ProductPackage> deletePackage(@PathVariable String id) {
+        ProductPackage aPackage = packageRepository.findOne(id);
+        packageRepository.delete(aPackage);
+        return ResponseEntity.ok(aPackage);
     }
 }

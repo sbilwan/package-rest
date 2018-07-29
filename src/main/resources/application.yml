@@ -4,3 +4,5 @@ spring:
       host: localhost
       port: 27017
       database: Package
+forex:
+  apikey: 391171fe5bbd82f39773e908365b1fd7
