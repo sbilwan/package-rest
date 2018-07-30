@@ -1,5 +1,6 @@
 package com.exercise.rest.controller;
 
+import com.exercise.rest.exception.EntityNotFoundException;
 import com.exercise.rest.model.ProductPackage;
 import com.exercise.rest.repository.PackageRepository;
 import com.exercise.rest.service.SanitizePackageService;
@@ -7,11 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -35,7 +34,7 @@ public class ProductPackageController {
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<String> createPackage(@Valid @RequestBody ProductPackage productPackage){
-        sanitizePackage.sanitizePackagePrice(productPackage);
+        sanitizePackage.correctPackagePrice(productPackage);
         productPackage.setId(UUID.randomUUID().toString());
         ProductPackage aPackage = packageRepository.insert(productPackage);
         return ResponseEntity.ok(aPackage.getId());
@@ -43,16 +42,21 @@ public class ProductPackageController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ProductPackage getPackageById(@PathVariable("id") String id, @RequestParam(value ="cur", required = false) String currency){
-        if ( StringUtils.hasText(currency)){
-
+        ProductPackage fetchedPackage = packageRepository.findOne(id);
+        if( fetchedPackage == null ){
+            throw new EntityNotFoundException(id, "No Package exists with this id");
         }
-        return packageRepository.findOne(id);
+        sanitizePackage.applyForexRate(currency, fetchedPackage);
+        return fetchedPackage;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<ProductPackage> deletePackage(@PathVariable String id) {
-        ProductPackage aPackage = packageRepository.findOne(id);
-        packageRepository.delete(aPackage);
-        return ResponseEntity.ok(aPackage);
+        ProductPackage fetchedPackage = packageRepository.findOne(id);
+        if (fetchedPackage == null){
+            throw new EntityNotFoundException(id, "No Package exists with this id");
+        }
+        packageRepository.delete(fetchedPackage);
+        return ResponseEntity.ok(fetchedPackage);
     }
 }

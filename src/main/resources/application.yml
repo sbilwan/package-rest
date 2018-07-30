@@ -5,4 +5,6 @@ spring:
       port: 27017
       database: Package
 forex:
+  symbolendpoint: http://data.fixer.io/api/symbols
+  latestendpoint: http://data.fixer.io/api/latest
   apikey: 391171fe5bbd82f39773e908365b1fd7
