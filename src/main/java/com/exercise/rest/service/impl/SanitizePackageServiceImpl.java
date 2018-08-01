@@ -35,9 +35,12 @@ public class SanitizePackageServiceImpl implements SanitizePackageService {
     public void correctPackagePrice(ProductPackage productPackage) {
         if ( productPackage.getProducts() !=null ) {
             BigDecimal totalProductPrice = productPackage.getProducts().stream().map(Product::getPrice).reduce((x, y) -> x.add(y)).get();
-            if (totalProductPrice.compareTo( productPackage.getPrice()) == 1) {
+            if (totalProductPrice.compareTo( productPackage.getPrice()) > 0) {
                 productPackage.setPrice(totalProductPrice);
             }
+
+            BigDecimal conversionFactor = forexApiConsumer.latestRate("USD");
+            productPackage.setPrice(productPackage.getPrice().divide(conversionFactor, BigDecimal.ROUND_HALF_UP));
         }
     }
 
@@ -45,13 +48,14 @@ public class SanitizePackageServiceImpl implements SanitizePackageService {
     public void applyForexRate(String currency, ProductPackage productPackage) {
         BigDecimal conversionFactor = new BigDecimal(1.0);
         if( StringUtils.isEmpty(currency)) {
-            // Default convert ot USD.
+            // Default convert to USD.
             conversionFactor = forexApiConsumer.latestRate("USD");
-        }
-        if ( SupportedCurrencies.getInstance().getCurrencies().get(currency) !=null ) {
-            conversionFactor = forexApiConsumer.latestRate(currency);
-        }else {
-            throw new BusinessValidationException("Either not a valid currency or not supported by service");
+        } else {
+            if (SupportedCurrencies.getInstance().getCurrencies().get(currency) != null) {
+                conversionFactor = forexApiConsumer.latestRate(currency);
+            } else {
+                throw new BusinessValidationException("Either not a valid currency or not supported by service");
+            }
         }
         productPackage.setPrice(productPackage.getPrice().multiply(conversionFactor) );
     }

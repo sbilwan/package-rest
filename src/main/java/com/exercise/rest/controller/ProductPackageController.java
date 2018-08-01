@@ -9,8 +9,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.UUID;
 
 @RestController
@@ -37,7 +39,9 @@ public class ProductPackageController {
         sanitizePackage.correctPackagePrice(productPackage);
         productPackage.setId(UUID.randomUUID().toString());
         ProductPackage aPackage = packageRepository.insert(productPackage);
-        return ResponseEntity.ok(aPackage.getId());
+        final URI location = ServletUriComponentsBuilder.fromCurrentRequest().path(
+                "/{id}").buildAndExpand(aPackage.getId()).toUri();
+        return ResponseEntity.created(location).body(aPackage.getId());
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -58,5 +62,16 @@ public class ProductPackageController {
         }
         packageRepository.delete(fetchedPackage);
         return ResponseEntity.ok(fetchedPackage);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<ProductPackage> updatePackage(@PathVariable String id, @Valid @RequestBody ProductPackage productPackage) {
+        ProductPackage fetchedPackage = packageRepository.findOne(id);
+        if (fetchedPackage == null){
+            throw new EntityNotFoundException(id, "No Package exists with this id");
+        }
+        productPackage.setId(fetchedPackage.getId());
+        ProductPackage savedPackage = packageRepository.save(productPackage);
+        return ResponseEntity.ok(savedPackage);
     }
 }
