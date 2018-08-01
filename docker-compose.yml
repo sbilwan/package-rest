@@ -1,0 +1,29 @@
+version: '3'
+services:
+   nbcan:
+        container_name: PackagerAPIContainer
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: packageapi
+        command: java -jar /opt/package-api/package-api.jar
+        expose:
+          - 28080
+        ports:
+          - "8080:28080"
+        depends_on:
+          - mongo
+        networks:
+          - service-network
+   mongo:
+        container_name: MongoDBContainer
+        image: mongo:3.6.1
+        restart: always
+        ports:
+          - "27019:27017"
+        command: mongod
+        networks:
+          - service-network
+networks:
+  service-network:
+    driver: bridge
