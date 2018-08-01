@@ -8,10 +8,13 @@ import org.junit.AfterClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 @RunWith(SpringRunner.class)
 public class PackageRestControllerTest extends BaseTest {
@@ -29,7 +32,7 @@ public class PackageRestControllerTest extends BaseTest {
 
         //Get test bin.
         final ProductPackage fetchedPackage = getTestPackage(PACKAGE_END_POINT + "/" + id, ProductPackage.class);
-        assertEquals(getTestPackageId(), fetchedPackage.getId());
+        assertEquals(" Couldn't fetch the test bin ", getTestPackageId(), fetchedPackage.getId());
 
         //Modify test bin.
         testPackage.setName("UpdateTestPackage");
@@ -39,13 +42,10 @@ public class PackageRestControllerTest extends BaseTest {
 
         //Delete test bin
         deleteTestPackage(PACKAGE_END_POINT,getTestPackageId());
+        final ResponseEntity<ProductPackage> response = restTemplate.getForEntity(PACKAGE_END_POINT, ProductPackage.class);
+        assertNull(response.getBody().getId());
+
 
     }
 
-
-  /* @After
-   public void cleanUp() {
-        testPackage.setId(getTestPackageId());
-        packageRepository.delete(testPackage);
-   }*/
 }

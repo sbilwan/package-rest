@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Service
 public class SanitizePackageServiceImpl implements SanitizePackageService {
@@ -38,26 +39,28 @@ public class SanitizePackageServiceImpl implements SanitizePackageService {
             if (totalProductPrice.compareTo( productPackage.getPrice()) > 0) {
                 productPackage.setPrice(totalProductPrice);
             }
-
             BigDecimal conversionFactor = forexApiConsumer.latestRate("USD");
-            productPackage.setPrice(productPackage.getPrice().divide(conversionFactor, BigDecimal.ROUND_HALF_UP));
+            // Converting the price in EUROs.
+            productPackage.setPrice(productPackage.getPrice().divide(conversionFactor, RoundingMode.HALF_UP));
         }
     }
 
     @Override
     public void applyForexRate(String currency, ProductPackage productPackage) {
         BigDecimal conversionFactor = new BigDecimal(1.0);
-        if( StringUtils.isEmpty(currency)) {
+        if( StringUtils.isEmpty(currency) || "EUR".equals(currency.toUpperCase())) {
             // Default convert to USD.
             conversionFactor = forexApiConsumer.latestRate("USD");
         } else {
-            if (SupportedCurrencies.getInstance().getCurrencies().get(currency) != null) {
-                conversionFactor = forexApiConsumer.latestRate(currency);
+                String askedCurrency = currency.toUpperCase();
+            if (SupportedCurrencies.getInstance().getCurrencies().get(askedCurrency) != null) {
+                conversionFactor = forexApiConsumer.latestRate(askedCurrency);
             } else {
-                throw new BusinessValidationException("Either not a valid currency or not supported by service");
+                throw new BusinessValidationException("Either not a valid currency or not supported by service", currency);
             }
         }
         productPackage.setPrice(productPackage.getPrice().multiply(conversionFactor) );
+        productPackage.setPrice(productPackage.getPrice().setScale(2, RoundingMode.HALF_UP));
     }
 
     @Override

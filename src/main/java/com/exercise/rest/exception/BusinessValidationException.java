@@ -6,6 +6,8 @@ public class BusinessValidationException extends  RuntimeException{
 
     private long exceptionCode;
 
+    private Object errorObject;
+
     public BusinessValidationException() {
         super();
     }
@@ -19,6 +21,12 @@ public class BusinessValidationException extends  RuntimeException{
         this();
         this.exceptionMessage = message;
         this.exceptionCode = code;
+    }
+
+    public BusinessValidationException(String message, Object cause) {
+        this();
+        this.exceptionMessage = message;
+        this.errorObject = cause;
     }
 
     @Override
@@ -41,5 +49,10 @@ public class BusinessValidationException extends  RuntimeException{
 
     public void setExceptionCode(long exceptionCode) {
         this.exceptionCode = exceptionCode;
+    }
+
+
+    public Object getErrorObject() {
+        return errorObject;
     }
 }
