@@ -7,6 +7,7 @@ import com.exercise.rest.service.SanitizePackageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -38,7 +39,8 @@ public class ProductPackageController {
         return sanitizePackage.listPackagesByPage(pageable);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
+                                                    produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> createPackage(@Valid @RequestBody ProductPackage productPackage){
         sanitizePackage.correctPackagePrice(productPackage);
         productPackage.setId(UUID.randomUUID().toString());
@@ -48,7 +50,7 @@ public class ProductPackageController {
         return ResponseEntity.created(location).body(aPackage.getId());
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ProductPackage getPackageById(@PathVariable("id") String id, @RequestParam(value ="cur", required = false) String currency){
         ProductPackage fetchedPackage = packageRepository.findOne(id);
         if( fetchedPackage == null ){
