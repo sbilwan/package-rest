@@ -32,15 +32,9 @@ repositories {
     mavenCentral()
 }
 
-def VERSION = [
-        LOMBOK: '1.16.18',
-        THYMELEAF: '3.0.0.RELEASE',
-]
 dependencies {
     compile("org.springframework.boot:spring-boot-devtools:${springBootVersion}")
     compile("org.springframework.boot:spring-boot-actuator:${springBootVersion}")
-    compile("org.projectlombok:lombok:${VERSION.LOMBOK}")
-   /* compile("org.thymeleaf:thymeleaf-spring4:${VERSION.THYMELEAF}")*/
     compile('org.springframework.boot:spring-boot-starter-data-mongodb')
     compile('org.springframework.boot:spring-boot-starter-web')
     testCompile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}"

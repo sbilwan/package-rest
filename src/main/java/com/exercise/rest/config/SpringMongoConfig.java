@@ -1,6 +1,5 @@
 package com.exercise.rest.config;
 
-import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 import com.mongodb.ServerAddress;
 import org.springframework.context.annotation.Bean;
