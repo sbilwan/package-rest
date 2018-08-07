@@ -39,8 +39,7 @@ public class ProductPackageController {
         return sanitizePackage.listPackagesByPage(pageable);
     }
 
-    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
-                                                    produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<String> createPackage(@Valid @RequestBody ProductPackage productPackage){
         sanitizePackage.correctPackagePrice(productPackage);
         productPackage.setId(UUID.randomUUID().toString());
@@ -70,7 +69,7 @@ public class ProductPackageController {
         return ResponseEntity.ok(fetchedPackage);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProductPackage> updatePackage(@PathVariable String id, @Valid @RequestBody ProductPackage productPackage) {
         ProductPackage fetchedPackage = packageRepository.findOne(id);
         if (fetchedPackage == null){
