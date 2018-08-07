@@ -10,7 +10,6 @@ import com.exercise.rest.service.SanitizePackageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -31,7 +30,12 @@ public class SanitizePackageServiceImpl implements SanitizePackageService {
     }
 
 
-
+    /**
+     * The method compares the cumulative price of the all the products and the price specified in the package and chooses
+     * the biggest of two. Then convert the USD price in Euros.
+     *
+     * @param productPackage package to be sanitized.
+     */
     @Override
     public void correctPackagePrice(ProductPackage productPackage) {
         if ( productPackage.getProducts() !=null ) {
@@ -45,10 +49,16 @@ public class SanitizePackageServiceImpl implements SanitizePackageService {
         }
     }
 
+    /**
+     * The method converts the package price in the asked currency.
+     *
+     * @param currency currency in which package price is to be displayed.
+     * @param productPackage package to be sanitized.
+     */
     @Override
     public void applyForexRate(String currency, ProductPackage productPackage) {
         BigDecimal conversionFactor = new BigDecimal(1.0);
-        if( StringUtils.isEmpty(currency) || "EUR".equals(currency.toUpperCase())) {
+        if( StringUtils.isEmpty(currency) || "EUR".equals(currency.toUpperCase()) || "USD".equals(currency.toUpperCase())) {
             // Default convert to USD.
             conversionFactor = forexApiConsumer.latestRate("USD");
         } else {

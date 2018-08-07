@@ -21,6 +21,9 @@ import java.net.URI;
 import java.util.Collections;
 import java.util.Map;
 
+/**
+ *  The API consumer that calls data fixer api to get the current currency conversion rates.
+ */
 @Service
 @Configuration
 public class ForexApiConsumer {
@@ -59,6 +62,10 @@ public class ForexApiConsumer {
         return headers;
     }
 
+    /**
+     * Method that loads all the allowed currencies from the fixer api.
+     *
+     */
     public void loadSupportedCurrencies() {
         ResponseEntity<Map> responseEntity = restTemplate.exchange(getUri(UriComponentsBuilder.fromUriString(forexApiSymbolEndpoint)),
                 HttpMethod.GET,
@@ -72,6 +79,13 @@ public class ForexApiConsumer {
         }
     }
 
+    /**
+     * Method gets the latest conversion factor of the asked currency respective to EUR.
+     *
+     * @param ofCurrency currency for which conversion rate is asked.
+     *
+     * @return the conversion rate.
+     */
     public BigDecimal latestRate(String ofCurrency) {
         BigDecimal conversionFactor = null;
         URI uri = getUri(addQueryParams(UriComponentsBuilder.fromUriString(forexApiLatestEndpoint),  ofCurrency));

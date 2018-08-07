@@ -1,7 +1,7 @@
 package com.exercise.rest.model;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public final class SupportedCurrencies {
 
@@ -27,7 +27,7 @@ public final class SupportedCurrencies {
     }
 
     private SupportedCurrencies() {
-        currencies = new HashMap<>();
+        currencies = new ConcurrentHashMap<>();
     }
 
 }

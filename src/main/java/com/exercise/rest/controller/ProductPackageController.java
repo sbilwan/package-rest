@@ -15,6 +15,10 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.UUID;
 
+/**
+ * Controller that intercepts all the REST calls.
+ *
+ */
 @RestController
 @RequestMapping("/packages")
 public class ProductPackageController {

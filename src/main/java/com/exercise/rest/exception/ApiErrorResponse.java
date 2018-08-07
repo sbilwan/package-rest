@@ -2,6 +2,10 @@ package com.exercise.rest.exception;
 
 import org.springframework.http.HttpStatus;
 
+/**
+ * Error Response from the API.
+ *
+ */
 public class ApiErrorResponse {
 
     private HttpStatus status;

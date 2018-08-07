@@ -9,6 +9,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
+
+/**
+ * The Centralized Handler of all the exceptions in the API.
+ *
+ */
 @RestControllerAdvice
 public class ServiceExceptionHandler {
 
@@ -42,6 +47,14 @@ public class ServiceExceptionHandler {
         ApiErrorResponse errorResponse = new ApiErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR);
         errorResponse.setErrorMessage(" Having trouble in getting prices for the package. Please try after some time ");
         logger.error("ForexService Unavailable  Exception " + exception.getMessage());
+        return generateErrorResponse(errorResponse);
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<Object> handleGeneralRuntimeException( RuntimeException exception ){
+        ApiErrorResponse errorResponse = new ApiErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR);
+        errorResponse.setErrorMessage(" Internal Server Error ");
+        logger.error("Runtime Exception " + exception.getMessage());
         return generateErrorResponse(errorResponse);
     }
 
