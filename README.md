@@ -279,3 +279,16 @@ The operation expects and id of the package that needs to be deleted. Bear in mi
     "price": 800
 }
 ```
+#Dockerizing the app
+
+1. Build the docker image of the app using command
+
+> docker build -t "packageapi:latest" .
+
+2. Run the built image in a docker container
+
+> docker container run --publish 8080:8080 --name PackageApiContainer packageapi:latest
+
+
+
+
