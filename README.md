@@ -8,10 +8,10 @@
 > Docker
 
 # Assumptions 
-1. Products will never be changed and will always be provided to the API
+1. Products will never change and will always be provided to the API.
 2. Since products are immutable then it is safe to use the Mongodb and persist the product details within package.
 3. This API doesn't use HATEOS so there is no HAL or JSON-API specs used. 
-4. Package price can be provided as one of the input in POST call however, API does make a check and compare the input price with cumulative products prices and whichever is bigger is chosen as Package price.
+4. Package price can be provided as one of the input in POST call. However, API does make a check and compare the input price with cumulative products prices and whichever is bigger is chosen as Package price.
 5. Package price are in USD and whilst persisting packages, price is converted into Euros.
 6. API make use of Pagination provide by Spring to get all the packages.
 7. To get a package by its id, when passed a currency, the package price is converted to the currency and returned in response.
