@@ -1,4 +1,4 @@
-This code illustrates how you can implement a service using Spring Boot involving MongoDB and Dockerizing the service. This is purely for learning purposes. 
+This code illustrates how you can implement a service using Spring Boot involving MongoDB and Dockerizing the service. This is purely for learning purposes. The RESTful service has CRUD operations for a package API. The package price can be asked to query in a specific currency. https://fixer.io/ is used for currency conversion.
 Stay tuned for further addition to the service ->Service discovery and Authentication. 
 # Tools
 > Spring Boot
@@ -9,7 +9,7 @@ Stay tuned for further addition to the service ->Service discovery and Authentic
 
 > Docker
 
-# Assumptions 
+# Considerations 
 1. Products will never change and will always be provided to the API.
 2. Since products are immutable then it is safe to use the Mongodb and persist the product details within package.
 3. This API doesn't use HATEOS so there is no HAL or JSON-API specs used. 
@@ -44,7 +44,7 @@ id : The operation has id field but it is useless in this operation as API gener
 
 name: Name of the package.
 
-products: This is the array of the products with similar structure as defined in the https://product-service.herokuapp.com/api/v1/products  [see the sample below]
+products: This is the array of the products with similar structure as defined in the sample below.
 ```[ {
   "id" : "VqKb4tyj9V6i",
   "name" : "Shield",
