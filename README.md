@@ -1,3 +1,5 @@
+This code illustrates how you can implement a service using Spring Boot involving MongoDB and Dockerizing the service. This is purely for learning purposes. 
+Stay tuned for further addition to the service ->Service discovery and Authentication. 
 # Tools
 > Spring Boot
 
