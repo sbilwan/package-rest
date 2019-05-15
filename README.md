@@ -79,7 +79,8 @@ products: This is the array of the products with similar structure as defined in
   "id" : "8anPsR2jbfNW",
   "name" : "Silver Coin",
   "usdPrice" : 50
-} ]```
+} ]
+```
 
 price: This is the placeholder for the price of the package. This is ideally the sum total of all the prices in products array. However, any price more than the total of products price will take precedence.
  
