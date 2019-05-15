@@ -42,7 +42,44 @@ id : The operation has id field but it is useless in this operation as API gener
 
 name: Name of the package.
 
-products: This is the array of the products with similar structure as defined in the https://product-service.herokuapp.com/api/v1/products.
+products: This is the array of the products with similar structure as defined in the https://product-service.herokuapp.com/api/v1/products  [see the sample below]
+```[ {
+  "id" : "VqKb4tyj9V6i",
+  "name" : "Shield",
+  "usdPrice" : 1149
+}, {
+  "id" : "DXSQpv6XVeJm",
+  "name" : "Helmet",
+  "usdPrice" : 999
+}, {
+  "id" : "7dgX6XzU3Wds",
+  "name" : "Sword",
+  "usdPrice" : 899
+}, {
+  "id" : "PKM5pGAh9yGm",
+  "name" : "Axe",
+  "usdPrice" : 799
+}, {
+  "id" : "7Hv0hA2nmci7",
+  "name" : "Knife",
+  "usdPrice" : 349
+}, {
+  "id" : "500R5EHvNlNB",
+  "name" : "Gold Coin",
+  "usdPrice" : 249
+}, {
+  "id" : "IP3cv7TcZhQn",
+  "name" : "Platinum Coin",
+  "usdPrice" : 399
+}, {
+  "id" : "IJOHGYkY2CYq",
+  "name" : "Bow",
+  "usdPrice" : 649
+}, {
+  "id" : "8anPsR2jbfNW",
+  "name" : "Silver Coin",
+  "usdPrice" : 50
+} ]```
 
 price: This is the placeholder for the price of the package. This is ideally the sum total of all the prices in products array. However, any price more than the total of products price will take precedence.
  
